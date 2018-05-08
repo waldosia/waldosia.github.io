@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018 | waldosia的博客</title>
+  <title>第一个项目部分总结 | waldosia的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="waldosia的博客">
-<meta property="og:url" content="http://yoursite.com/archives/2018/index.html">
+  <meta name="description" content="1.移动端头部设置 &amp;lt;meta name =&amp;quot;viewport&amp;quot; content =&amp;quot;initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no&amp;quot;&amp;gt; 2.div占据整个body　方法1：    body,html{     padding:0px;     margin:">
+<meta name="keywords" content="html,css,javaScript,微信分享">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一个项目部分总结">
+<meta property="og:url" content="http://yoursite.com/2018/05/08/FirstProjectSummary/index.html">
 <meta property="og:site_name" content="waldosia的博客">
+<meta property="og:description" content="1.移动端头部设置 &amp;lt;meta name =&amp;quot;viewport&amp;quot; content =&amp;quot;initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no&amp;quot;&amp;gt; 2.div占据整个body　方法1：    body,html{     padding:0px;     margin:">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-08T09:57:16.105Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="waldosia的博客">
+<meta name="twitter:title" content="第一个项目部分总结">
+<meta name="twitter:description" content="1.移动端头部设置 &amp;lt;meta name =&amp;quot;viewport&amp;quot; content =&amp;quot;initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no&amp;quot;&amp;gt; 2.div占据整个body　方法1：    body,html{     padding:0px;     margin:">
   
     <link rel="alternative" href="/atom.xml" title="waldosia的博客" type="application/atom+xml">
   
@@ -132,36 +137,205 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-FirstProjectSummary" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/08/FirstProjectSummary/" class="archive-article-date">
-  	<time datetime="2018-05-08T09:00:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/08/FirstProjectSummary/">第一个项目部分总结</a>
+    <h1 class="article-title" itemprop="name">
+      第一个项目部分总结
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/05/08/FirstProjectSummary/" class="archive-article-date">
+  	<time datetime="2018-05-08T09:00:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.移动端头部设置</p>
+<pre><code>&lt;meta name =&quot;viewport&quot; content =&quot;initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no&quot;&gt;
+</code></pre><p>2.div占据整个body<br>　方法1：   </p>
+<pre><code>body,html{
+    padding:0px;
+    margin:0px;
+    overflow:hidden;
+}
+#divShow{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-color:green;
+}  
+</code></pre><p>   　方法2：</p>
+<pre><code>html,body{      
+    height: 100%;  
+}
+</code></pre><a id="more"></a>
+<p>3.css3中calc( )函数实现不同单位的运算</p>
+<pre><code>width: calc(100% - 25px);
+</code></pre><p>4.box-sizing属性</p>
+<pre><code>div{
+    box-sizing:border-box;
+　　-moz-box-sizing:border-box; /* Firefox */
+　　-webkit-box-sizing:border-box; /* Safari */
+}
+</code></pre><p>值描述<br><b>content-box:</b><br>这是由 CSS2.1 规定的宽度高度行为。宽度和高度分别应用到元素的内容框。在宽度和高度之外绘制元素的内边距和边框。<br><b>border-box:</b><br>为元素设定的宽度和高度决定了元素的边框盒。就是说，为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度。<br><b>inherit:</b><br>规定应从父元素继承 box-sizing 属性的值。<br>5.用 JavaScript 准确获取手机屏幕的宽度和高度   </p>
+<pre><code>function getViewportSize () {    
+     return {        
+         width:window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth,            
+         height: window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight            
+         };
+ }
+</code></pre><p>6.div盒子垂直居中<br>1）盒子没有固定的高度<br>方法1：</p>
+<pre><code>&lt;div class=&quot;wrapper&quot;&gt;我不知道我的宽度和高是多少，我要实现水平垂直居中。&lt;/div&gt;
+.wrapper {            
+    position: absolute;            
+    top: 50%;            
+    left: 50%;            
+    -webkit-transform: translate(-50%, -50%);            
+    -moz-transform: translate(-50%, -50%);            
+    transform: translate(-50%, -50%);        
+}        
+</code></pre><p>   优点：<br>   1.内容可变高度<br>   2.代码量少<br>   缺点：<br>   1.IE8不支持<br>   2.属性需要写浏览器厂商前缀<br>   3.可能干扰其他transform效果<br>   4.某些情形下会出现文本或元素边界渲染模糊的现象<br>   方法2： 在父级元素上面加上上面3句话，就可以实现子元素水平垂直居中。      </p>
+<pre><code>.wrapper {            
+       width: 500px;         
+       height: 300px;
+       /*只需要在父元素上加这三句*/            
+       justify-content: center; /*子元素水平居中*/            
+       align-items: center; /*子元素垂直居中*/            
+       display: -webkit-flex; /*css3弹性布局*/        
+}    
+</code></pre><p>2）盒子有固定的宽和高<br>方案1、margin 负间距<br>此方案代码关键点：1.必需知道该div的宽度和高度，<br>2.然后设置位置为绝对位置， 3.距离页面窗口左边框和上边框的距离设置为50%，这个50%就是指页面窗口的宽度和高度的50%， 4.最后将该div分别左移和上移，左移和上移的大小就是该DIV宽度和高度的一半。</p>
+<pre><code>&lt;div class=&quot;wrapper&quot;&gt;我知道我的宽度和高是多少，我要实现水平垂直居中。&lt;/div&gt;
+.wrapper {            
+    width: 400px;            
+    height: 18px;            
+    padding: 20px;            
+    background: orange;            
+    color: #fff;            
+    position: absolute;            
+    top:50%;            
+    left:50%;            
+    margin-top: -9px;            
+    margin-left: -200px;
+}
+</code></pre><p>方案2、<br><code>margin:auto</code>实现绝对定位元素的居中（该方法兼容ie8以上浏览器）<br>此方案代码关键点：<br>1、上下左右均0位置定位；<br>2、<code>margin: auto;</code></p>
+<pre><code>&lt;div class=&quot;wrapper&quot;&gt;我不知道我的宽度和高是多少，我要实现水平垂直居中。&lt;/div&gt;
+.wrapper {            
+    width: 400px;            
+    height: 18px;            
+    padding:20px;            
+    background: orange;            
+    color: #fff;            
+    position: absolute;            
+    left:0;            
+    right:0;            
+    top: 0;            
+    bottom: 0;            
+    margin: auto;        
+}
+</code></pre><p>6.视口单位主要包括以下4个：<br><b>vw :</b>1vw 等于视口宽度的1%<br><b>vh :</b>1vh 等于视口高度的1%<br><b>vmin :</b> 选取 vw 和 vh 中最小的那个<br><b>vmax :</b> 选取 vw 和 vh 中最大的那个<br>7.页面底部居中</p>
+<pre><code>.rule{    
+    width: 100%;    
+    position: fixed;    
+    bottom: 2vh;    
+    left: 0;    
+    text-align: center;
+}
+</code></pre><p>8.JS手机号正则</p>
+<pre><code>var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+</code></pre><p>9.js中function注释规范</p>
+<pre><code>/**
+* [checkMobile 检查号码是否可用]
+* @param  {Element} ele   号码输入框
+* @param  {string} mbNum
+* @param  {Element} pop   弹出框
+* @return {boolean}
+*/
+</code></pre><p>10.验证码倒计时</p>
+<pre><code>/**
+* 验证码禁用函数
+* @param {Element} ele  获取验证码按钮
+* @param {Number} time  经过time时间后才可以重新获取
+*/
+function codeForbid(ele, time) {
+    ele.style.backgroundColor = &apos;#999&apos;;
+    ele.disabled = true;
+    var timer = setInterval(function () {
+        if(time === 0){
+            clearInterval(timer);
+            ele.style.backgroundColor = &apos;#33CCFF&apos;;
+            ele.innerHTML = &apos;重新获取验证码&apos;;
+            ele.disabled = false;
+        }else{
+            ele.innerHTML = time + &quot;s后重新发送&quot;;
+            time--;
+        }
+    }, 1000);
+</code></pre><p>}<br>11.函数内定义全局变量<br>全局环境下定义，函数环境内赋值。<br>12.跨域每次ajax访问后端服务器sessionid不一致问题<br>xhr对象加入withCredentials和crossDomain属性</p>
+<pre><code>xhr.withCredentials = true;
+xhr.crossDomain = true;
+</code></pre><p>服务器后端设置头部</p>
+<pre><code>httpResponse.setHeader(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);  
+httpResponse.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;http://192.168.199.240:8081&quot;);  
+httpResponse.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With&quot;);
+</code></pre><p>注意由于设置了Access-Control-Allow-Credentials: true，因此必须设置Origin不能使用通配符(*)。</p>
+<pre><code>httpResponse.setHeader(&quot;Access-Control-Allow-Origin&quot;, request.getHeader(&apos;Origin&apos;));  
+</code></pre><p>比较通用的写法，获取请求的头部。<br>13.微信分享接口</p>
+<pre><code>wx.config({   //注册微信分享接口
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: obj.data.appid, // 必填，公众号的唯一标识  后端生成
+    timestamp: obj.data.timestamp, // 必填，生成签名的时间戳   后端生成
+    nonceStr: obj.data.nonceStr, // 必填，生成签名的随机串  后端生成
+    signature: obj.data.signature,// 必填，签名   后端生成
+    jsApiList: [// 必填，需要使用的JS接口列表
+        &apos;checkJsApi&apos;,
+        &apos;onMenuShareTimeline&apos;,
+        &apos;onMenuShareAppMessage&apos;
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({  分享参数设置
+        title: title, // 分享标题
+        link: link, // 分享链接,将当前登录用户转为puid,以便于发展下线
+        imgUrl: root + &apos;/image/logo.png&apos;, // 分享图标
+        success: function () {
+            // 用户确认分享后执行的回调函数
+            alert(&apos;分享成功&apos;);
+        },
+        cancel: function () {
+            // 用户取消分享后执行的回调函数
+            alert(&apos;分享失败&apos;);
+        }
+    });
+     wx.onMenuShareAppMessage({
+        title: title, // 分享标题
+        desc: desc,
+        link: link, // 分享链接,将当前登录用户转为puid,以便于发展下线
+        imgUrl: root + &apos;/image/logo.png&apos;, // 分享图标
+        success: function () {
+            // 用户确认分享后执行的回调函数
+            alert(&apos;分享成功&apos;);
+        },
+        cancel: function () {
+            // 用户取消分享后执行的回调函数
+            alert(&apos;分享失败&apos;);
+        }
+    });
+})
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -185,73 +359,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/05/08/FirstProjectSummary/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/23/my-first-blog/" class="archive-article-date">
-  	<time datetime="2018-03-23T13:13:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-23</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/23/my-first-blog/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">第一天</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/23/my-first-blog/">第一天</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/23/hello-world/" class="archive-article-date">
-  	<time datetime="2018-03-23T12:47:23.196Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/23/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -274,8 +481,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
