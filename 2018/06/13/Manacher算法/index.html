@@ -20,7 +20,7 @@
   
   <title>Manacher算法之js实现 | Hexo</title>
   <meta name="description" content="3.Manacher算法3.1.    manacher算法给定一个字符串，找出其最长回文子串（子串在原字符串必须连续，子序列不一定要连续）.例如：s=”1234”，最长回文长度为 1；s=”12321”，最长回文长度为 5；s=”12332”，最长回文长度为 4，即2332。笨办法：遍历每一个字符，以该字符为中心向两边查找。其时间复杂度为O(n^2)。Manacher算法：时间复杂度O(n)a)">
-<meta name="keywords" content="javascript,算法,js,manacher">
+<meta name="keywords" content="javascript,算法,manacher,js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Manacher算法之js实现">
 <meta property="og:url" content="https://waldosia.github.io/2018/06/13/Manacher算法/index.html">
@@ -353,11 +353,6 @@
 
         
 
-	<span class="article-read hidden-xs">
-    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
-    	<span id="/2018/06/13/Manacher算法/" class="leancloud_visitors"  data-flag-title="Manacher算法之js实现">0</span>
-    </span>
-
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/06/13/Manacher算法/#comments" class="article-comment-link">评论</a></span>
         
 	
@@ -558,96 +553,6 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     
         
 
-
-<!-- custom analytics part create by xiamo -->
-<script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script>
-<script defer>
-AV.init({
-  appId: 'dpm1XCXQgf5H1y13yKkoNE7Q-gzGzoHsz',
-  appKey: 'XXLr9vjJoDbXFBOhofC5RDqB'
-});
-
-function showTime(Counter) {
-	var query = new AV.Query(Counter);
-		var visitors= $('.leancloud_visitors');
-		query.greaterThanOrEqualTo("time", 0);		
-		query.find({
-			success: function(results) {
-				if (results.length == 0) {				
-					return;
-				}
-				var data = results;
-				visitors.each(function(){
-					var url = $(this).attr('id').trim();					
-					for (var i = 0; i < data.length; i++) {
-						var object = data[i];
-						var content = object.get('time');
-						var _url = object.get('url')
-						if(url == _url){
-							$(this).text(content);
-						}
-					}
-				})
-				
-			},
-			error: function(object, error) {
-				console.log("Error: " + error.code + " " + error.message);
-			}
-		});
-}
-
-function addCount(Counter) {
-	var Counter = AV.Object.extend("Counter");
-	url = $(".leancloud_visitors").attr('id').trim();
-	title = $(".leancloud_visitors").attr('data-flag-title').trim();
-	var query = new AV.Query(Counter);
-	query.equalTo("url", url);
-	query.find({
-		success: function(results) {
-			if (results.length > 0) {
-				var counter = results[0];
-				counter.fetchWhenSave(true);
-				counter.increment("time");
-				counter.save(null, {
-					success: function(counter) {
-						var content = counter.get('time');
-						$(document.getElementById(url)).text(content);
-					},
-					error: function(counter, error) {
-						console.log('Failed to save Visitor num, with error message: ' + error.message);
-					}
-				});
-			} else {
-				var newcounter = new Counter();
-				newcounter.set("title", title);
-				newcounter.set("url", url);
-				newcounter.set("time", 1);
-				newcounter.save(null, {
-					success: function(newcounter) {
-					    console.log("newcounter.get('time')="+newcounter.get('time'));
-						var content = newcounter.get('time');
-						$(document.getElementById(url)).text(content);
-					},
-					error: function(newcounter, error) {
-						console.log('Failed to create');
-					}
-				});
-			}
-		},
-		error: function(error) {
-			console.log('Error:' + error.code + " " + error.message);
-		}
-	});
-}
-$(function() {
-	var Counter = AV.Object.extend("Counter");
-	if ($('.leancloud_visitors').length == 1) {
-		addCount(Counter);
-	} else {
-		showTime(Counter);
-	}
-}); 
-</script>
 
     
     
