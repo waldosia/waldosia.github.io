@@ -15,21 +15,22 @@
   <meta name="theme-color" content="#000000" />
   <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
   <meta http-equiv="window-target" content="_top" />
+  <meta name="baidu-site-verification" content="ib391iFDv9" />
   
   
-  <title>KMP算法 | Hexo</title>
+  <title>KMP算法之js实现 | Hexo</title>
   <meta name="description" content="2.KMP算法2.1.    KMP算法　　求解问题：有两个字符串str1和str2，寻找str1是否包含str2，并找出包含的起始位置。如str1=12341234d，str2=1234d，则包含的起始位置为4。　　笨办法：假设str2的字符串长度为m，从str1的0位置开始，选取以该位置开头的长度为m的子字符串与str2匹配，若匹配成功，返回该位置，若匹配不成功，则从str1的下一个位置开始继">
 <meta name="keywords" content="算法,js,KMP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="KMP算法">
+<meta property="og:title" content="KMP算法之js实现">
 <meta property="og:url" content="https://waldosia.github.io/2018/06/13/KMP算法/index.html">
 <meta property="og:site_name" content="waldosia的博客">
 <meta property="og:description" content="2.KMP算法2.1.    KMP算法　　求解问题：有两个字符串str1和str2，寻找str1是否包含str2，并找出包含的起始位置。如str1=12341234d，str2=1234d，则包含的起始位置为4。　　笨办法：假设str2的字符串长度为m，从str1的0位置开始，选取以该位置开头的长度为m的子字符串与str2匹配，若匹配成功，返回该位置，若匹配不成功，则从str1的下一个位置开始继">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://waldosia.github.io/img/kmp.jpg">
-<meta property="og:updated_time" content="2018-06-25T03:41:49.907Z">
+<meta property="og:updated_time" content="2018-07-10T01:39:08.365Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="KMP算法">
+<meta name="twitter:title" content="KMP算法之js实现">
 <meta name="twitter:description" content="2.KMP算法2.1.    KMP算法　　求解问题：有两个字符串str1和str2，寻找str1是否包含str2，并找出包含的起始位置。如str1=12341234d，str2=1234d，则包含的起始位置为4。　　笨办法：假设str2的字符串长度为m，从str1的0位置开始，选取以该位置开头的长度为m的子字符串与str2匹配，若匹配成功，返回该位置，若匹配不成功，则从str1的下一个位置开始继">
 <meta name="twitter:image" content="https://waldosia.github.io/img/kmp.jpg">
   <!-- Canonical links -->
@@ -201,7 +202,7 @@
   <div class="widget">
     <h3 class="widget-title">Categories</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">4</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li></ul>
     </div>
   </div>
 
@@ -211,7 +212,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFPRT/">BFPRT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MarkDown/">MarkDown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript/">javaScript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/manacher/">manacher</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/冒泡排序/">冒泡排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/堆排序/">堆排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/归并排序/">归并排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信分享/">微信分享</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快速排序/">快速排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/插入排序/">插入排序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择排序/">选择排序</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BFPRT/">BFPRT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KMP/">KMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MarkDown/">MarkDown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript/">javaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/manacher/">manacher</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/冒泡排序/">冒泡排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/堆排序/">堆排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/归并排序/">归并排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信分享/">微信分享</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快速排序/">快速排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/排序/">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/插入排序/">插入排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/选择排序/">选择排序</a></li></ul>
     </div>
   </div>
 
@@ -230,7 +231,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li></ul>
     </div>
   </div>
 
@@ -249,7 +250,7 @@
                 <a class="category-link" href="/categories/算法/">算法</a>
               </p>
               <p class="item-title">
-                <a href="/2018/06/25/BFPRT算法/" class="title">BFPRT算法</a>
+                <a href="/2018/06/25/BFPRT算法/" class="title">BFPRT算法之js实现</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-06-25T03:34:00.000Z" itemprop="datePublished">2018-06-25</time>
@@ -264,7 +265,7 @@
                 <a class="category-link" href="/categories/算法/">算法</a>
               </p>
               <p class="item-title">
-                <a href="/2018/06/13/Manacher算法/" class="title">Manacher算法</a>
+                <a href="/2018/06/13/Manacher算法/" class="title">Manacher算法之js实现</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-06-13T14:23:00.000Z" itemprop="datePublished">2018-06-13</time>
@@ -279,7 +280,7 @@
                 <a class="category-link" href="/categories/算法/">算法</a>
               </p>
               <p class="item-title">
-                <a href="/2018/06/13/KMP算法/" class="title">KMP算法</a>
+                <a href="/2018/06/13/KMP算法/" class="title">KMP算法之js实现</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-06-13T13:55:00.000Z" itemprop="datePublished">2018-06-13</time>
@@ -294,7 +295,7 @@
                 <a class="category-link" href="/categories/算法/">算法</a>
               </p>
               <p class="item-title">
-                <a href="/2018/06/03/算法视频总结/" class="title">基本排序算法</a>
+                <a href="/2018/06/03/算法视频总结/" class="title">基本排序算法之js实现</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-06-03T14:33:00.000Z" itemprop="datePublished">2018-06-03</time>
@@ -337,7 +338,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      KMP算法
+      KMP算法之js实现
     </h1>
   
 
@@ -368,6 +369,7 @@
         
       </div>
     </div>
+    
     <div class="article-entry markdown-body" itemprop="articleBody">
       
         <h1 id="2-KMP算法"><a href="#2-KMP算法" class="headerlink" title="2.KMP算法"></a>2.KMP算法</h1><h2 id="2-1-KMP算法"><a href="#2-1-KMP算法" class="headerlink" title="2.1.    KMP算法"></a>2.1.    KMP算法</h2><p>　　求解问题：有两个字符串str1和str2，寻找str1是否包含str2，并找出包含的起始位置。如str1=12341234d，str2=1234d，则包含的起始位置为4。<br>　　笨办法：假设str2的字符串长度为m，从str1的0位置开始，选取以该位置开头的长度为m的子字符串与str2匹配，若匹配成功，返回该位置，若匹配不成功，则从str1的下一个位置开始继续匹配，直到匹配结束。<br>　　<b>KMP算法</b>：（时间复杂度O(n)）<br>  a)    利用str2建立长度为m的next数组，表示str2对应位置前面字符串的最大前缀和最大后缀的匹配。<br> 　建立规则：取str2的第i个字符，看str2(i)前面的子字符串，其中前缀与后缀相等时的最大长度。其中前缀不能包括子字符串的最后一位，后缀不能包括子字符串的第一位。Next数组以-1和0开头。<br>  举例：str2=12341234d，<br> <table><tbody><tr><th>前后缀长度</th><th>前缀</th><th>后缀</th></tr><tr><td>1</td><td>1</td><td>4</td></tr><tr><td>2</td><td>12</td><td>34</td></tr><tr><td>3</td><td>123</td><td>234</td></tr><tr><td bgcolor="SteelBlue">4</td><td bgcolor="SteelBlue">1234</td><td bgcolor="SteelBlue">1234</td></tr><tr><td>5</td><td>12341</td><td>41234</td></tr><tr><td>6</td><td>123412</td><td>231234</td></tr></tbody></table></p>
@@ -383,7 +385,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://waldosia.github.io/2018/06/13/KMP算法/" title="KMP算法" target="_blank" rel="external">https://waldosia.github.io/2018/06/13/KMP算法/</a>
+      <a href="https://waldosia.github.io/2018/06/13/KMP算法/" title="KMP算法之js实现" target="_blank" rel="external">https://waldosia.github.io/2018/06/13/KMP算法/</a>
     </li>
     
     
@@ -408,7 +410,11 @@
 </div>
 
 
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
     </div>
+
   </article>
   
     
@@ -423,6 +429,7 @@
 
 
   
+
 </div>
 
   <nav class="bar bar-footer clearfix" data-stick-bottom>
@@ -431,12 +438,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2018/06/13/Manacher算法/" title="Manacher算法"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+      <a href="/2018/06/13/Manacher算法/" title="Manacher算法之js实现"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2018/06/03/算法视频总结/" title="基本排序算法"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2018/06/03/算法视频总结/" title="基本排序算法之js实现"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
@@ -521,7 +528,11 @@
         	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
         </div>
     </div>
+    <span id="busuanzi_container_site_uv"> 
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
 </footer>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script>
 window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
