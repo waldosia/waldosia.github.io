@@ -1,14 +1,19 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="waldosia"><link rel="alternative" href="/atom.xml" title="waldosia的博客" type="application/atom+xml"><link rel="icon" href="/favicon.png"><title>英语资料上传管理系统总结 - waldosia的博客</title><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/js/fancybox/jquery.fancybox.min.css"><!--[if lt IE 9]><script>(function(a,b){a="abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output progress section summary template time video".split(" ");for(b=a.length-1;b>=0;b--)document.createElement(a[b])})()</script><![endif]--><script src="/js/jquery-3.1.1.min.js"></script><script src="/js/fancybox/jquery.fancybox.min.js"></script></head><body style="opacity:0"><header class="head"><h1 class="head-title u-fl"><a href="/">waldosia的博客</a></h1><nav class="head-nav u-fr"><ul class="head-nav__list"><li class="head-nav__item"><a class="head-nav__link" href="/archives">カタログ/（目录）</a></li></ul></nav></header><main class="main"><article class="post"><header class="post__head"> <time class="post__time" datetime="2018-06-20T11:46:00.000Z">六月 20, 2018</time><h1 class="post__title"><a href="/2018/06/20/SecondProjectSummary/">英语资料上传管理系统总结</a></h1><div class="post__main echo"><ol>
-<li><strong>开启两个react app时，显示Something is already running on port 3000.</strong><br>解决：<code>PORT=3001 npm start</code></li>
-<li><strong>Import相对路径引用</strong><br>‘./同一文件夹内文件’<br>‘../父级文件夹兄弟文件’</li>
-<li><strong>npm i 依赖安装 报错 error -4058 syscall access</strong><br>解决：使用cnpm i</li>
-<li><strong>报错Each child in an array or iterator should have a unique “key” prop.</strong><br>原代码      <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> imgList = imgStr.map(<span class="function">(<span class="params">image</span>) =&gt;</span></span><br><span class="line">   &lt;li className=<span class="string">"icon-wrap"</span>&gt;&lt;img src=&#123;image&#125; alt=""/&gt;&lt;/li&gt;react</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<li><p><strong>开启两个react app时，显示Something is already running on port 3000.</strong><br>解决：<code>PORT=3001 npm start</code></p>
 </li>
-</ol>
-<p>修改后<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> imgList = imgStr.map(<span class="function">(<span class="params">image,i</span>) =&gt;</span></span><br><span class="line">  &lt;li className=<span class="string">"icon-wrap"</span> key=&#123;i&#125;&gt;&lt;img src=&#123;image&#125; alt=""/&gt;&lt;/li&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
-<ol start="5">
-<li><strong>同一行文字图片不对齐</strong><br>解决： 给文字设置vertical-align: top;属性.</li>
-<li><strong>‘props’ is not defined</strong><br>解决：props调用前需要加this，<code>{this.props.image}</code>.</li>
+<li><p><strong>Import相对路径引用</strong><br>‘./同一文件夹内文件’<br>‘../父级文件夹兄弟文件’</p>
+</li>
+<li><p><strong>npm i 依赖安装 报错 error -4058 syscall access</strong><br>解决：使用cnpm i   </p>
+</li>
+<li><p><strong>报错Each child in an array or iterator should have a unique “key” prop.</strong><br>原代码      </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> imgList = imgStr.map(<span class="function">(<span class="params">image</span>) =&gt;</span></span><br><span class="line">   &lt;li className=<span class="string">"icon-wrap"</span>&gt;&lt;img src=&#123;image&#125; alt=""/&gt;&lt;/li&gt;react</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>修改后     </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> imgList = imgStr.map(<span class="function">(<span class="params">image,i</span>) =&gt;</span></span><br><span class="line">  &lt;li className=<span class="string">"icon-wrap"</span> key=&#123;i&#125;&gt;&lt;img src=&#123;image&#125; alt=""/&gt;&lt;/li&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>同一行文字图片不对齐</strong><br>解决： 给文字设置<code>vertical-align: top;</code>属性。</p>
+</li>
+<li><p><strong>‘props’ is not defined</strong><br>解决：props调用前需要加this，<code>{this.props.image}</code>。   </p>
+</li>
 <li><p><strong>修改state数组中某一个</strong></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">   <span class="keyword">super</span>(props);</span><br><span class="line">   <span class="keyword">this</span>.state = &#123;<span class="attr">open</span>: [<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>]&#125;;</span><br><span class="line">   <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleClick(i) &#123;</span><br><span class="line">   <span class="keyword">let</span> state = <span class="keyword">this</span>.state;</span><br><span class="line">   state[i] = !state[i];</span><br><span class="line">   <span class="keyword">this</span>.setState(&#123;<span class="attr">state</span>: state&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
@@ -60,7 +65,8 @@
 </li>
 <li><p><strong>对象属性名通过(.)与([])调用区别</strong><br>(.)调用时，后面必须为字符串。<br>([])调用时，中间可以为变量。</p>
 </li>
-<li><strong>git过滤文件以及文件夹</strong><br>1）    在根目录中创建.gitignore.txt文件，或者在需要创建.gitignore文件的文件夹内进入命令行，输入touch .gitignore即可。<br>2）    在.gitignore文件里输入你要忽略的文件夹及其文件就可以了。<br>文件夹用bin/表示，文件后缀用*.dll表示.</li>
+<li><p><strong>git过滤文件以及文件夹</strong><br>1）    在根目录中创建.gitignore.txt文件，或者在需要创建.gitignore文件的文件夹内进入命令行，输入touch .gitignore即可。<br>2）    在.gitignore文件里输入你要忽略的文件夹及其文件就可以了。<br>文件夹用bin/表示，文件后缀用*.dll表示.</p>
+</li>
 <li><p><strong>prevState</strong>   </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>)=&gt;</span>(&#123;<span class="attr">voicePlay</span>: !prevState.voicePlay&#125;))</span><br></pre></td></tr></table></figure>
 </li>
