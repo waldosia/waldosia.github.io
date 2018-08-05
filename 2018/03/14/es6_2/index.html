@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  <meta name="baidu-site-verification" content="ib391iFDv9" />
+  
+  
+  <title>深入理解ES6-第2章-字符串和正则表达式 | waldosia的博客</title>
+  <meta name="description" content="2.字符串和正则表达式2.1更好的Unicode支持　　在es6出现之前，javascript字符串一直都是基于16位字符编码（UTF-16）进行创建。每16位的序列是一个编码单元，代表一个字符。length、charAt()等字符串属性和方法都是基于这种编码单元构造的。 UTF-16码位　　Unicode的目标时为全世界每一个字符提供全球唯一的字符串（又被称作码位，是从0开始的数值，按顺序排列）">
+<meta name="keywords" content="ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解ES6-第2章-字符串和正则表达式">
+<meta property="og:url" content="https://waldosia.github.io/2018/03/14/es6_2/index.html">
+<meta property="og:site_name" content="waldosia的博客">
+<meta property="og:description" content="2.字符串和正则表达式2.1更好的Unicode支持　　在es6出现之前，javascript字符串一直都是基于16位字符编码（UTF-16）进行创建。每16位的序列是一个编码单元，代表一个字符。length、charAt()等字符串属性和方法都是基于这种编码单元构造的。 UTF-16码位　　Unicode的目标时为全世界每一个字符提供全球唯一的字符串（又被称作码位，是从0开始的数值，按顺序排列）">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-05T08:51:03.729Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解ES6-第2章-字符串和正则表达式">
+<meta name="twitter:description" content="2.字符串和正则表达式2.1更好的Unicode支持　　在es6出现之前，javascript字符串一直都是基于16位字符编码（UTF-16）进行创建。每16位的序列是一个编码单元，代表一个字符。length、charAt()等字符串属性和方法都是基于这种编码单元构造的。 UTF-16码位　　Unicode的目标时为全世界每一个字符提供全球唯一的字符串（又被称作码位，是从0开始的数值，按顺序排列）">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://waldosia.github.io/2018/03/14/es6_2/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="waldosia的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/waldosia" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">waldosia</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Chengdu, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/waldosia" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入理解ES6/">深入理解ES6</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/项目总结/">项目总结</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/BFPRT/" style="font-size: 13px;">BFPRT</a> <a href="/tags/ES6/" style="font-size: 14px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 13px;">JavaScript</a> <a href="/tags/KMP/" style="font-size: 13px;">KMP</a> <a href="/tags/MarkDown/" style="font-size: 13px;">MarkDown</a> <a href="/tags/javascript/" style="font-size: 13.33px;">javascript</a> <a href="/tags/js/" style="font-size: 13.33px;">js</a> <a href="/tags/manacher/" style="font-size: 13px;">manacher</a> <a href="/tags/react/" style="font-size: 13px;">react</a> <a href="/tags/冒泡排序/" style="font-size: 13px;">冒泡排序</a> <a href="/tags/堆排序/" style="font-size: 13px;">堆排序</a> <a href="/tags/归并排序/" style="font-size: 13px;">归并排序</a> <a href="/tags/快速排序/" style="font-size: 13px;">快速排序</a> <a href="/tags/排序/" style="font-size: 13px;">排序</a> <a href="/tags/插入排序/" style="font-size: 13px;">插入排序</a> <a href="/tags/数据结构/" style="font-size: 13px;">数据结构</a> <a href="/tags/算法/" style="font-size: 13.67px;">算法</a> <a href="/tags/选择排序/" style="font-size: 13px;">选择排序</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/项目总结/">项目总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/20/SecondProjectSummary/" class="title">英语资料上传管理系统总结</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-20T11:46:00.000Z" itemprop="datePublished">2018-06-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/25/BFPRT/" class="title">BFPRT算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-25T03:34:00.000Z" itemprop="datePublished">2018-05-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/13/Manacher/" class="title">Manacher算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-13T14:23:00.000Z" itemprop="datePublished">2018-05-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/13/KMP/" class="title">KMP算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-13T13:55:00.000Z" itemprop="datePublished">2018-05-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/03/sortAlgorithm/" class="title">基本排序算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-03T14:33:00.000Z" itemprop="datePublished">2018-05-03</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-es6_2" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      深入理解ES6-第2章-字符串和正则表达式
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/03/14/es6_2/" class="article-date">
+	  <time datetime="2018-03-14T10:24:00.000Z" itemprop="datePublished">2018-03-14</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/深入理解ES6/">深入理解ES6</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/ES6/">ES6</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2018/03/14/es6_2/" class="leancloud_visitors"  data-flag-title="深入理解ES6-第2章-字符串和正则表达式">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/03/14/es6_2/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1,863(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 7(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h3 id="2-字符串和正则表达式"><a href="#2-字符串和正则表达式" class="headerlink" title="2.字符串和正则表达式"></a>2.字符串和正则表达式</h3><h4 id="2-1更好的Unicode支持"><a href="#2-1更好的Unicode支持" class="headerlink" title="2.1更好的Unicode支持"></a>2.1更好的Unicode支持</h4><p>　　在es6出现之前，javascript字符串一直都是基于16位字符编码（UTF-16）进行创建。每16位的序列是一个编码单元，代表一个字符。length、charAt()等字符串属性和方法都是基于这种编码单元构造的。</p>
+<h5 id="UTF-16码位"><a href="#UTF-16码位" class="headerlink" title="UTF-16码位"></a>UTF-16码位</h5><p>　　Unicode的目标时为全世界每一个字符提供全球唯一的字符串（又被称作码位，是从0开始的数值，按顺序排列）。而表示字符的这些数值或码位，我们称之为字符编码（character encode）。字符编码必须将码位编码为内部统一的编码单元。<br>　　对于UTF-16来说，前216个码位均已16位的编码单元表示，这个范围被称作基本多文种平面（BMP）。超出这个范围的码位则要归属于某个辅助平面，其中的码位仅用16位就无法表示了。为此，UTF-16引入了代理对，其规定用两个16位编码单元表示一个码位。也就是说，字符串里的字符有两种，一种是由一个编码单元16位表示的BMP字符，另一种是由两个编码单元32位表示的辅助平面字符。<br>　　在ES5中，所有字符串的操作都基于16位编码单元。如果采用同样的方式处理包含代理对的UTF-16编码字符，得到的结果可能与预期不符。</p>
+<h5 id="codePointAt-方法"><a href="#codePointAt-方法" class="headerlink" title="codePointAt()方法"></a>codePointAt()方法</h5><p>　　方法接受编码单元的位置而非字符串位置作为参数。<br>　　对于非BMP字符集来说，它占用两个编码单元，第一个编码单元codePointAt()返回完整的码位，而第二个编码单元与BMP字符集中字符返回与charCodeAt()相同。<br>　　当该方法返回的数字大于0xFFFF时，为非BMP字符集中字符。</p>
+<h5 id="String-fromCodePoint-方法"><a href="#String-fromCodePoint-方法" class="headerlink" title="String.fromCodePoint()方法"></a>String.fromCodePoint()方法</h5><p>　　参数为码位，根据它生成一个字符。看成完整版的String.fromCharCode()。</p>
+<h5 id="normalize-方法"><a href="#normalize-方法" class="headerlink" title="normalize()方法"></a>normalize()方法</h5><p>　　在对比字符串之前，一定先把它们标准化为同一种形式。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">values.sort(<span class="function"><span class="keyword">function</span>(<span class="params">first,second</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> firstNormalized = first.normalize();</span><br><span class="line">  <span class="keyword">let</span> secondNormalized = second.normalize();</span><br><span class="line">  <span class="keyword">if</span> (firstNormalized &lt; secondNormalized) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (firstNormalized === secondNormalized) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h5 id="正则表达式u修饰符"><a href="#正则表达式u修饰符" class="headerlink" title="正则表达式u修饰符"></a>正则表达式u修饰符</h5><p>从编码单元操作模式切换为字符模式，可以视代理为一个字符。</p>
+<ul>
+<li>计算码位数量<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">codePointLength</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = text.match(<span class="regexp">/[\s\S]/gu</span>);</span><br><span class="line">  <span class="keyword">return</span> result ? result.length : <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>检测空格和非空格字符</p>
+<ul>
+<li>检测u修饰符支持<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasRegExpU</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> pattern = <span class="keyword">new</span> <span class="built_in">RegExp</span>(‘.’, ‘u’);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;<span class="keyword">catch</span> (ex)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-2其他字符串变更"><a href="#2-2其他字符串变更" class="headerlink" title="2.2其他字符串变更"></a>2.2其他字符串变更</h4><p>　　字符串中的子串识别</p>
+<ul>
+<li>includes()方法——如果字符串中检测到指定文本则返回true，否则返回false;</li>
+<li>startsWith()方法——如果字符串的起始部分检测到指定文本则返回true，否则返回false；</li>
+<li>endsWith()方法——字符串的结束部分检测到指定文本则返回true；<br>　　以上方法都接收两个参数：第一个是要搜索的文本，第二个参数可选，为开始搜索位置的索引值。Includes()方法和startsWith()方法会从这个索引值的位置开始匹配，endsWith()则从字符串长度减去这个索引值的位置开始匹配，即从后往前数第多少位。参数不能传入正则表达式。<h5 id="repeat-方法"><a href="#repeat-方法" class="headerlink" title="repeat()方法"></a>repeat()方法</h5>　　接受一个number参数，表示字符串重复次数，返回值是当前字符串重复一定次数后的新字符串。<h4 id="2-3其他正则表达式语法变更"><a href="#2-3其他正则表达式语法变更" class="headerlink" title="2.3其他正则表达式语法变更"></a>2.3其他正则表达式语法变更</h4><h5 id="正则表达式y修饰符"><a href="#正则表达式y修饰符" class="headerlink" title="正则表达式y修饰符"></a>正则表达式y修饰符</h5>　　它会影响正则表达式搜索过程中的sticky属性，当在字符串中开始字符匹配时，它会通知搜索从正则表达式的lastIndex属性开始进行，若该位置没能匹配成功，则停止继续匹配。<br>　　只有调用exec()和test()这些正则表达式对象方法时才会涉及lastIndex属性；调用字符串方法不会触发粘滞行为。<br>　　检测y修饰符是否存在，应该检测正则表达式的sticky属性。<br>　　可用与u类似的方法来检测引擎支持程度。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasRegExpY</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> pattern = <span class="keyword">new</span> <span class="built_in">RegExp</span>(‘.’, ‘y’);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;<span class="keyword">catch</span> (ex)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="正则表达式的复制"><a href="#正则表达式的复制" class="headerlink" title="正则表达式的复制"></a>正则表达式的复制</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> re1 = <span class="regexp">/ab/</span>I,</span><br><span class="line">   re2 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(re1);</span><br></pre></td></tr></table></figure>
+<p>　　此时re2为re1的一份拷贝，若<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> re2 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(re1, <span class="string">'g'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>　　在ES5中会抛出错误，而ES6中不会，且修改了re2的修饰符。</p>
+<h5 id="flags属性"><a href="#flags属性" class="headerlink" title="flags属性"></a>flags属性</h5><p>　　为只读的原型属性访问器，只定义了getter方法。返回所有应用于当前正则表达式的修饰符字符串。source属性可获取正则表达式的文本。</p>
+<h4 id="2-4模板字面量"><a href="#2-4模板字面量" class="headerlink" title="2.4模板字面量"></a>2.4模板字面量</h4><p>　　ES6模板字面量支持创建领域专用语言（DSL）。DSL为某些具体而有限的目标设计的语言。模板字面量草案：这个方案是扩展ECMAScript基础语法的语法糖，其提供一套生成、查询并操作来自其他语言里内容的DSL，且可以免受注入攻击，例如XSS，SQL注入等。<br>　　ES6通过模板字面量的方式进行了填补：</p>
+<ul>
+<li>多行字符串——一个正式的多行字符串的概念。</li>
+<li>基本的字符串格式化——将变量的值嵌入字符串的能力。</li>
+<li>HTML转义——向HTML插入经过安全转换后的字符串的能力。<h5 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h5>　　通过（`）引用。内部使用反撇号时需用\转义。<h5 id="多行字符串"><a href="#多行字符串" class="headerlink" title="多行字符串"></a>多行字符串</h5><h6 id="ES6之前版本中的解决方案"><a href="#ES6之前版本中的解决方案" class="headerlink" title="ES6之前版本中的解决方案"></a>ES6之前版本中的解决方案</h6>　　在一个新行最前方添加反斜杠（\）可以承接上一行的代码。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> message = “Multiline \</span><br><span class="line">string”;</span><br><span class="line"><span class="built_in">console</span>.log(message);  <span class="comment">//”Multiline string”</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>　　如果想输出新的一行，需要手动输入换行符;<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> message = “Multiline \n\</span><br><span class="line">string”;</span><br><span class="line"><span class="built_in">console</span>.log(message);  <span class="comment">//”Multiline string”</span></span><br></pre></td></tr></table></figure></p>
+<p>　　或者依靠数组和字符串拼接方法建多行字符串。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> message = [</span><br><span class="line">  <span class="string">"Muitiline"</span>,</span><br><span class="line">  <span class="string">"string"</span></span><br><span class="line">].join(<span class="string">"\n"</span>); </span><br><span class="line"><span class="keyword">let</span> message = “Multiline \n” + “string”;</span><br></pre></td></tr></table></figure></p>
+<h5 id="简化多行字符串"><a href="#简化多行字符串" class="headerlink" title="简化多行字符串"></a>简化多行字符串</h5><p>　　如果需要在字符串中添加新的一行，只需在代码中直接换行，此处的换行结果将同步出现在结果中。<br>　　在反撇号中所有空白符都属于字符串的一部分，所以要千万小心缩进。<br>如果一定要通过适当的缩进来对齐文本，可以砸多行模板字面量中的第一行留白，后面几行缩进，并调用trim()方法移除最初的空格。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> html = <span class="string">`</span></span><br><span class="line"><span class="string">&lt;div&gt;</span></span><br><span class="line"><span class="string">  &lt;h1&gt;Title&lt;/h1&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">html.trim();</span></span><br></pre></td></tr></table></figure></p>
+<p>　　也可以在模板字面量中显示使用\n来插入换行。</p>
+<h5 id="字符串占位符"><a href="#字符串占位符" class="headerlink" title="字符串占位符"></a>字符串占位符</h5><p>　　用${.}表示，内部嵌入JavaScript表达式并将其作为字符串的一部分输出到结果中。一个模板字面量可以嵌套另一个。</p>
+<h5 id="标签模板"><a href="#标签模板" class="headerlink" title="标签模板"></a>标签模板</h5><p>　　每个模板标签都可以执行模板字面量上的转换并返回最终的字符串值。标签指的是模板字面量第一个反撇号（`）前方标注的字符串。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> message = tag<span class="string">`Hello world`</span>;</span><br></pre></td></tr></table></figure></p>
+<p>　　改模板字面量标签为tag。</p>
+<h6 id="定义标签"><a href="#定义标签" class="headerlink" title="定义标签"></a>定义标签</h6><h6 id="在模板字面量中使用原始值"><a href="#在模板字面量中使用原始值" class="headerlink" title="在模板字面量中使用原始值"></a>在模板字面量中使用原始值</h6><p>　　使用内建的String.raw标签<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> message = <span class="built_in">String</span>.raw<span class="string">`Multiline\nstring`</span>;</span><br><span class="line"><span class="built_in">console</span>.log(message);  <span class="comment">//”Multiline\\nstring”</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://waldosia.github.io/2018/03/14/es6_2/" title="深入理解ES6-第2章-字符串和正则表达式" target="_blank" rel="external">https://waldosia.github.io/2018/03/14/es6_2/</a>
+    </li>
+    
+    
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/waldosia" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/waldosia" target="_blank"><span class="text-dark">waldosia</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>尾巴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+      
+    </div>
+
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/03/17/es6_3/" title="深入理解ES6-第3章-函数"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/03/12/es6_1/" title="深入理解ES6-第1章-块级作用域绑定"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/waldosia" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+<!-- custom analytics part create by xiamo -->
+<script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'dpm1XCXQgf5H1y13yKkoNE7Q-gzGzoHsz',
+  appKey: 'XXLr9vjJoDbXFBOhofC5RDqB'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

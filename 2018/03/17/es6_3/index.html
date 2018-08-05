@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  <meta name="baidu-site-verification" content="ib391iFDv9" />
+  
+  
+  <title>深入理解ES6-第3章-函数 | waldosia的博客</title>
+  <meta name="description" content="3.函数3.1函数形参的默认值在ES5中模拟默认参数1234function makeRequest(url, timeout, callback)&amp;#123;	timeout = timeout || 2000;	callback = callback || function() &amp;#123;&amp;#125;;&amp;#125; 　　上者缺陷是传入0也会被默认为2000，所以更安全的选择如下1234fun">
+<meta name="keywords" content="ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解ES6-第3章-函数">
+<meta property="og:url" content="https://waldosia.github.io/2018/03/17/es6_3/index.html">
+<meta property="og:site_name" content="waldosia的博客">
+<meta property="og:description" content="3.函数3.1函数形参的默认值在ES5中模拟默认参数1234function makeRequest(url, timeout, callback)&amp;#123;	timeout = timeout || 2000;	callback = callback || function() &amp;#123;&amp;#125;;&amp;#125; 　　上者缺陷是传入0也会被默认为2000，所以更安全的选择如下1234fun">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-05T09:03:46.284Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解ES6-第3章-函数">
+<meta name="twitter:description" content="3.函数3.1函数形参的默认值在ES5中模拟默认参数1234function makeRequest(url, timeout, callback)&amp;#123;	timeout = timeout || 2000;	callback = callback || function() &amp;#123;&amp;#125;;&amp;#125; 　　上者缺陷是传入0也会被默认为2000，所以更安全的选择如下1234fun">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://waldosia.github.io/2018/03/17/es6_3/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="waldosia的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/waldosia" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">waldosia</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Chengdu, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/waldosia" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入理解ES6/">深入理解ES6</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/项目总结/">项目总结</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/BFPRT/" style="font-size: 13px;">BFPRT</a> <a href="/tags/ES6/" style="font-size: 14px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 13px;">JavaScript</a> <a href="/tags/KMP/" style="font-size: 13px;">KMP</a> <a href="/tags/MarkDown/" style="font-size: 13px;">MarkDown</a> <a href="/tags/javascript/" style="font-size: 13.33px;">javascript</a> <a href="/tags/js/" style="font-size: 13.33px;">js</a> <a href="/tags/manacher/" style="font-size: 13px;">manacher</a> <a href="/tags/react/" style="font-size: 13px;">react</a> <a href="/tags/冒泡排序/" style="font-size: 13px;">冒泡排序</a> <a href="/tags/堆排序/" style="font-size: 13px;">堆排序</a> <a href="/tags/归并排序/" style="font-size: 13px;">归并排序</a> <a href="/tags/快速排序/" style="font-size: 13px;">快速排序</a> <a href="/tags/排序/" style="font-size: 13px;">排序</a> <a href="/tags/插入排序/" style="font-size: 13px;">插入排序</a> <a href="/tags/数据结构/" style="font-size: 13px;">数据结构</a> <a href="/tags/算法/" style="font-size: 13.67px;">算法</a> <a href="/tags/选择排序/" style="font-size: 13px;">选择排序</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/项目总结/">项目总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/20/SecondProjectSummary/" class="title">英语资料上传管理系统总结</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-20T11:46:00.000Z" itemprop="datePublished">2018-06-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/25/BFPRT/" class="title">BFPRT算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-25T03:34:00.000Z" itemprop="datePublished">2018-05-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/13/Manacher/" class="title">Manacher算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-13T14:23:00.000Z" itemprop="datePublished">2018-05-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/13/KMP/" class="title">KMP算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-13T13:55:00.000Z" itemprop="datePublished">2018-05-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/03/sortAlgorithm/" class="title">基本排序算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-03T14:33:00.000Z" itemprop="datePublished">2018-05-03</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-es6_3" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      深入理解ES6-第3章-函数
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/03/17/es6_3/" class="article-date">
+	  <time datetime="2018-03-17T04:07:00.000Z" itemprop="datePublished">2018-03-17</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/深入理解ES6/">深入理解ES6</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/ES6/">ES6</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2018/03/17/es6_3/" class="leancloud_visitors"  data-flag-title="深入理解ES6-第3章-函数">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/03/17/es6_3/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 3,288(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 12(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h3 id="3-函数"><a href="#3-函数" class="headerlink" title="3.函数"></a>3.函数</h3><h4 id="3-1函数形参的默认值"><a href="#3-1函数形参的默认值" class="headerlink" title="3.1函数形参的默认值"></a>3.1函数形参的默认值</h4><h5 id="在ES5中模拟默认参数"><a href="#在ES5中模拟默认参数" class="headerlink" title="在ES5中模拟默认参数"></a>在ES5中模拟默认参数</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params">url, timeout, callback</span>)</span>&#123;</span><br><span class="line">	timeout = timeout || <span class="number">2000</span>;</span><br><span class="line">	callback = callback || <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　上者缺陷是传入0也会被默认为2000，所以更安全的选择如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params">url, timeout, callback</span>)</span>&#123;</span><br><span class="line">	timeout = (<span class="keyword">typeof</span> timeout !== ‘<span class="literal">undefined</span>’) || <span class="number">2000</span>;</span><br><span class="line">	callback = (<span class="keyword">typeof</span> callback!== ‘<span class="literal">undefined</span>’) || <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="ES6中的默认参数值"><a href="#ES6中的默认参数值" class="headerlink" title="ES6中的默认参数值"></a>ES6中的默认参数值</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params">url, timeout = <span class="number">2000</span>, callback = function(</span>)</span>&#123;&#125;) &#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　其中url为必需参数，另两个有默认值。在不传入默认参数或默认参数传入undefined时会使用默认值。有默认值的参数和必需参数顺序无要求。</p>
+<h5 id="默认参数对arguments对象的影响"><a href="#默认参数对arguments对象的影响" class="headerlink" title="默认参数对arguments对象的影响"></a>默认参数对arguments对象的影响</h5><p>　　ES5中在非严格情况下，函数命名参数的变化会体现在arguments中，命名参数被赋予新值时，arguments也相应更新。在严格情况下，取消了这个行为，无论参数怎么变化，arguments对象不再随之变化。<br>　　ES6中如果一个函数是用来默认参数值，则arguments行为与ES5严格模式相同。arguments只与传入的参数有关，默认参数不会给他赋值。</p>
+<h5 id="默认参数表达式"><a href="#默认参数表达式" class="headerlink" title="默认参数表达式"></a>默认参数表达式</h5><p>　　可以通过函数执行来得到默认参数表达式。还可以使用先定义的参数作为后定义参数的默认值，先定义的参数不能访问后定义的参数。</p>
+<h5 id="默认参数的临时死区"><a href="#默认参数的临时死区" class="headerlink" title="默认参数的临时死区"></a>默认参数的临时死区</h5><p>　　与let声明类似，定义参数时会为每一个参数创建一个新的标识符绑定，该绑定在初始化之前不可被引用，如果试图访问会导致程序抛出错误。当调用函数时，会通过传入的值或参数的默认值初始化该参数。<br>　　注意：函数参数有自己的作用域和临时死区，其与函数体的作用域时各自独立的，也就是说参数的默认值不可访问函数体内声明的变量。即括号内可看做是单独的作用域。</p>
+<h4 id="3-2处理无名参数"><a href="#3-2处理无名参数" class="headerlink" title="3.2处理无名参数"></a>3.2处理无名参数</h4><h5 id="ES5中的无名参数"><a href="#ES5中的无名参数" class="headerlink" title="ES5中的无名参数"></a>ES5中的无名参数</h5><p>　　通过arguments来检查函数的所有参数。</p>
+<h5 id="不定参数"><a href="#不定参数" class="headerlink" title="不定参数"></a>不定参数</h5><p>　　在函数的命名参数前添加三个点（…）就表明这是一个不定参数，该参数为一个数组，包含着自它之后传入的所有参数，通过该数组名可以逐一访问里面的参数。<br>　　注意：函数的length属性统计的是命名参数的数量，不定参数的加入不会影响length的值。</p>
+<h5 id="不定参数的使用限制"><a href="#不定参数的使用限制" class="headerlink" title="不定参数的使用限制"></a>不定参数的使用限制</h5><p>　　每个函数最多只能声明一个不定参数，而且一定要放在所有参数的末尾。<br>　　不定参数不能用于对象字面量setter中，是因为setter的参数有且只能有一个。</p>
+<h5 id="不定参数对arguments的影响"><a href="#不定参数对arguments的影响" class="headerlink" title="不定参数对arguments的影响"></a>不定参数对arguments的影响</h5><p>　　无论是否使用不定参数，arguments对象总是包含所有传入函数的参数。</p>
+<h4 id="3-3-增强的Function构造函数"><a href="#3-3-增强的Function构造函数" class="headerlink" title="3.3 增强的Function构造函数"></a>3.3 增强的Function构造函数</h4><p>　　支持在Function构造函数中传入默认函数以及不定参数。</p>
+<h4 id="3-4展开运算符"><a href="#3-4展开运算符" class="headerlink" title="3.4展开运算符"></a>3.4展开运算符</h4><p>　　展开运算符可以让你指定一个数组，将它们打散后作为各自独立的参数传入函数。ES5及以前需手动遍历或者使用apply()方法。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> values = [<span class="number">25</span>, <span class="number">50</span>, <span class="number">75</span>, <span class="number">100</span>];</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max.apply(<span class="built_in">Math</span>, values));  <span class="comment">// ES5早期版本 100</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Math</span>.max(…values));</span><br></pre></td></tr></table></figure></p>
+<p>　　可以将展开运算符与其他正常传入的参数混合使用。</p>
+<h4 id="3-5-name属性"><a href="#3-5-name属性" class="headerlink" title="3.5 name属性"></a>3.5 name属性</h4><p>　　由于JavaScript中有多种定义函数的方式，因此辨别函数就是一项具有挑战性的任务。为此ES6为所有函数新增name属性</p>
+<h5 id="如何选择合适的名称"><a href="#如何选择合适的名称" class="headerlink" title="如何选择合适的名称"></a>如何选择合适的名称</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;  &#125;</span><br><span class="line"><span class="keyword">var</span> doAnotherThing = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;  &#125;;</span><br><span class="line"><span class="built_in">console</span>.log(doSomething.name);  <span class="comment">//”doSomething”</span></span><br><span class="line"><span class="built_in">console</span>.log(doAnotherThing.name);  <span class="comment">//”doAnotherThing”</span></span><br></pre></td></tr></table></figure>
+<p>　　函数声明时name为声明时的函数名称，匿名函数表达式声明时name为被赋值为该匿名函数的变量的名称。</p>
+<h5 id="name属性的特殊情况"><a href="#name属性的特殊情况" class="headerlink" title="name属性的特殊情况"></a>name属性的特殊情况</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> doSomething = <span class="function"><span class="keyword">function</span> <span class="title">doSomethingElse</span>(<span class="params"></span>)</span>&#123;  &#125;;</span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	get firstName() &#123;</span><br><span class="line">		<span class="keyword">return</span> ‘aaa’;</span><br><span class="line">&#125;,</span><br><span class="line">sayName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(doSomething.name);   <span class="comment">//”doSomethingElse”</span></span><br><span class="line"><span class="built_in">console</span>.log(person.sayName.name);  <span class="comment">//”sayName”  </span></span><br><span class="line"><span class="built_in">console</span>.log(person.firstName.name);  <span class="comment">//”get firstName”</span></span><br></pre></td></tr></table></figure>
+<p>　　在这个例子中，doSomething.name的值为”doSomethingElse”，是由于函数表达式有一个名字，这个名字比函数本身被赋值的变量的权重高；对象中的函数为对象字面量；与之类似，person.firstName实际上是一个getter函数，所以名称前面有get前缀，同理setter函数有set前缀。<br>　　通过bind（）函数创建的函数，其名称将带有bound前缀；通过Function构造的函数，名称带有anonymous前缀。<br>　　切记，函数的name属性的值不一定引用同名变量，它只是协助调试用的额外信息，所以不能使用name来获取对函数的引用。</p>
+<h4 id="3-6明确函数的多重用途"><a href="#3-6明确函数的多重用途" class="headerlink" title="3.6明确函数的多重用途"></a>3.6明确函数的多重用途</h4><p>　　ES5及以前函数具有多重功能，可以结合new使用，函数内的this值将指向一个新对象，函数最终将返回这个新对象。<br>　　JavaScript函数中有两个不同的内部方法：[[Call]]和[[Construct]]。当通过new关键字调用函数时，执行的是[[Construct]]函数，它负责创建一个通常被称作实例的新对象，然后再执行函数体，把this绑定在实例上；如果不通过new关键字调用函数，则执行[[Call]]函数，从而执行代码中的函数体。具有[[Construct]]方法的函数被统称为构造函数。<br>　　不是所有函数都有[[Construct]]方法，因此不是所有函数都可以用new来调用。</p>
+<h5 id="在ES5中判断函数被调用的方法"><a href="#在ES5中判断函数被调用的方法" class="headerlink" title="在ES5中判断函数被调用的方法"></a>在ES5中判断函数被调用的方法</h5><p>　　使用instanceof检查this的值，看它是否为构造函数的实例。由于[[Construct]]方法会创建一个Person的新实例，并将this绑定到新实例上。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">this</span> <span class="keyword">instanceof</span> Person) &#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name; </span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(‘必须通过<span class="keyword">new</span>关键字调用’);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　但是这种方法也不可靠，因为有一种不依赖new关键字的方法也可以将this绑定到Person实例上。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(‘a’);</span><br><span class="line"><span class="keyword">var</span> notAPerson = Person.call(person, ‘b’);  <span class="comment">//有效</span></span><br></pre></td></tr></table></figure></p>
+<p>　　此时将无法区分是通过Person.call()或者apply()还是new关键字调用得到的Person实例。</p>
+<h5 id="元属性（Metaproperty）new-target"><a href="#元属性（Metaproperty）new-target" class="headerlink" title="元属性（Metaproperty）new.target"></a>元属性（Metaproperty）new.target</h5><p>　　元属性指非对象的属性，其可以提供非对象目标的补充信息（如new）。当调用函数的[[Construct]]方法时，new.target被赋值为new操作符的目标，通常是新创建对象实例，也就是函数体内this的构造函数；如果调用[[Call]]方法，则new.target的值为undefined。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">new</span>.target !== ‘<span class="literal">undefined</span>’) &#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(‘必须通过<span class="keyword">new</span>关键字调用’);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(‘a’);</span><br><span class="line"><span class="keyword">var</span> notAPerson = Person.call(person, ‘b’);  <span class="comment">//抛出错误</span></span><br></pre></td></tr></table></figure></p>
+<p>　　也可以检查new.target是否被某个特定构造函数调用：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">new</span>.target === Person) &#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name; </span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(‘必须通过<span class="keyword">new</span>关键字调用’);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">AnotherPerson</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	Person.call(<span class="keyword">this</span>, name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(‘a’);</span><br><span class="line"><span class="keyword">var</span> anotherPerson = <span class="keyword">new</span> AnotherPerson (‘b’);  <span class="comment">//抛出错误</span></span><br></pre></td></tr></table></figure></p>
+<p>　　注意：在函数外使用new.target是一个语法错误</p>
+<h4 id="3-7块级函数"><a href="#3-7块级函数" class="headerlink" title="3.7块级函数"></a>3.7块级函数</h4><p>　　ES5的严格模式中引入了一个错误提示，当在代码块内部声明函数时程序会抛出错误。而ES6中会将该函数视作一个块级声明，从而可以在定义该函数的代码块中访问和调用它。该会计函数会被提升到代码块顶部，且代码块外部无法调用它。</p>
+<h5 id="块级函数的使用场景"><a href="#块级函数的使用场景" class="headerlink" title="块级函数的使用场景"></a>块级函数的使用场景</h5><p>　　块级函数与let函数表达式类似，但是let不会提升，而块级函数会被提升。</p>
+<h5 id="非严格模式下的块级函数"><a href="#非严格模式下的块级函数" class="headerlink" title="非严格模式下的块级函数"></a>非严格模式下的块级函数</h5><p>　　这时，这些函数不再提升到代码块的顶部，而是提升至外围函数或全局作用域的顶部。</p>
+<h4 id="3-8箭头函数"><a href="#3-8箭头函数" class="headerlink" title="3.8箭头函数"></a>3.8箭头函数</h4><p>　　箭头函数是一种使用箭头（=&gt;）定义函数的新语法，与传统函数的不同：</p>
+<ul>
+<li>没有this、super、arguments和new.target绑定：箭头函数的this、super、arguments和new.target这些值由外围最近一层非箭头函数决定。</li>
+<li>不能通过new关键字调用：箭头函数没有[[Construct]]方法，所以不能被用作构造函数，通过new调用会报错。</li>
+<li>没有原型：由于不可以通过new调用，因而没有构建原型的需求，所以箭头函数没有prototype这个属性</li>
+<li>不可以改变this的绑定：函数内this不可改变，在函数的生命周期内始终保持一致。</li>
+<li>不支持arguments对象：没有arguments绑定，只能通过命名参数和不定参数访问参数。</li>
+<li>不支持重复的命名参数：无论在严格或非严格情况下，都不支持；而传统函数只有在严格模式下不支持。<br>　　箭头函数也有一个name属性。<h5 id="箭头函数语法"><a href="#箭头函数语法" class="headerlink" title="箭头函数语法"></a>箭头函数语法</h5>　　箭头函数语法多变，根据实际使用场景有多种形式。所有变种都由函数参数、箭头、函数体组成。<br>a)  当箭头函数只有一个参数时，可以直接写参数名，箭头紧随其后，剪头右侧的表达式被求值后便立即返回即使没有返回语句，箭头函数也可以返回传入的第一个参数。<br>b)    如需要传入2个及以上参数，需要在参数两侧加入小括号。<br>c)    如果函数没有参数，也要在声明时写一组没有内容的小括号。<br>d)    如果希望为函数编写由多个表达式组成的函数体，则用花括号包裹住函数体，并显式定义一个返回值。<br>e)    如果想在箭头函数外返回一个对象字面量，则需要将她它包裹在小括号中。为了将其与函数体区分开。<h5 id="创建立即执行函数表达式（IIFE）"><a href="#创建立即执行函数表达式（IIFE）" class="headerlink" title="创建立即执行函数表达式（IIFE）"></a>创建立即执行函数表达式（IIFE）</h5>　　IIFE：定义一个匿名函数并立即调用，自始至终不保存对该函数的引用。当你想创建一个与其他程序隔离的作用域时，这种模式非常方便。<br>　　只要将箭头函数包裹在小括号里，并在最后加入函数调用括号，就可以用它实现相同的功能。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person = <span class="function">(<span class="params">(name</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">		getName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> name;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;)(‘aaa’);</span><br><span class="line"><span class="built_in">console</span>.log(person.getName());   <span class="comment">//”aaa”</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>　　注意：小括号只包裹箭头函数定义，没有包含(‘aaa’)，这一点与正常函数体有所不同，由正常函数定义的立即执行函数既可以用小括号包裹函数体，也可以额外包裹函数调用的部分。</p>
+<h5 id="箭头函数没有this绑定"><a href="#箭头函数没有this绑定" class="headerlink" title="箭头函数没有this绑定"></a>箭头函数没有this绑定</h5><p>　　箭头函数中没有this绑定，必须通过查找作用域链来决定其值。如果箭头函数被非箭头函数包含，则this绑定的最近一层非箭头函数的this；否则，this的值会被设置为undefined。<br>　　箭头函数缺少正常函数所拥有的的prototype属性，它的设计初衷是“即用即弃”，所以不能用来定义新的类型。如果尝试用过new调用一个箭头函数，会报错。<br>　　不能通过call()、apply()或bind()方法来改变this的值。</p>
+<h5 id="箭头函数与数组"><a href="#箭头函数与数组" class="headerlink" title="箭头函数与数组"></a>箭头函数与数组</h5><p>　　sort()、map()及reduce()，简化回调函数。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> result = values.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a-b);</span><br></pre></td></tr></table></figure></p>
+<h5 id="箭头函数没有arguments绑定"><a href="#箭头函数没有arguments绑定" class="headerlink" title="箭头函数没有arguments绑定"></a>箭头函数没有arguments绑定</h5><p>　　但是可以访问外围函数的arguments对象。</p>
+<h5 id="箭头函数的辨识方法"><a href="#箭头函数的辨识方法" class="headerlink" title="箭头函数的辨识方法"></a>箭头函数的辨识方法</h5><p>　　使用typeof和instanceof调用与普通函数无区别。同样，仍然可以在箭头函数上调用call()、apply()和bind()方法，但箭头函数的this不会改变。</p>
+<h4 id="3-9-调用优化"><a href="#3-9-调用优化" class="headerlink" title="3.9 调用优化"></a>3.9 调用优化</h4><p>　　尾调用指的是函数作为另一个函数的最后一条语句被调用，就像这样：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> doSomethingElse();   <span class="comment">//尾调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　在ES5引擎中，尾调用的实现与其他函数调用的实现类似：创建一个新的栈帧，将其推入调用栈表示函数调用。也就是说，在循环调用是，每一个未用完的栈帧都会保存在内存中，当调用栈变得过大时会造成程序问题。</p>
+<h5 id="ES6中的尾调用优化"><a href="#ES6中的尾调用优化" class="headerlink" title="ES6中的尾调用优化"></a>ES6中的尾调用优化</h5><p>　　ES6缩减了严格模式下尾调用栈的大小（非严格模式下不受影响）。如果满足以下条件，尾调用不再创建新的栈帧，而是清除并重用当前栈帧：</p>
+<ul>
+<li>尾调用不访问当前栈帧的变量（也就是说函数不是一个闭包）。</li>
+<li>在函数内部，尾调用是最后一条语句。</li>
+<li>尾调用的结果作为函数值立即返回。<h5 id="如何利用尾调用优化"><a href="#如何利用尾调用优化" class="headerlink" title="如何利用尾调用优化"></a>如何利用尾调用优化</h5>　　实际上，尾调用的优化发生在引擎背后，除非你尝试优化一个函数，否则无须思考此类问题。递归函数是其最主要的应用场景，此时尾调用优化的效果最显著。</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://waldosia.github.io/2018/03/17/es6_3/" title="深入理解ES6-第3章-函数" target="_blank" rel="external">https://waldosia.github.io/2018/03/17/es6_3/</a>
+    </li>
+    
+    
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/waldosia" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/waldosia" target="_blank"><span class="text-dark">waldosia</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>尾巴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+      
+    </div>
+
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/03/20/es6_4/" title="深入理解ES6-第4章-扩展对象的功能性"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/03/14/es6_2/" title="深入理解ES6-第2章-字符串和正则表达式"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/waldosia" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+<!-- custom analytics part create by xiamo -->
+<script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'dpm1XCXQgf5H1y13yKkoNE7Q-gzGzoHsz',
+  appKey: 'XXLr9vjJoDbXFBOhofC5RDqB'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  <meta name="baidu-site-verification" content="ib391iFDv9" />
+  
+  
+  <title>深入理解ES6-第６章-Symbol和Symbol属性 | waldosia的博客</title>
+  <meta name="description" content="6.Symbol和Symbol属性　　Symbol是JavaScript中一个新的原始类型，用于创建必须通过Symbol才能使用的属性。尽管这些属性不是完全私有的，但是他们比较难以被意外覆盖而改变。表示独一无二的值。可防止属性名冲突。 6.1 创建Symbol　　所有原始类型值，除Symbol以外都有各自的字面量形式。可以通过全局的Symbol函数创建一个Symbol：1234let firstN">
+<meta name="keywords" content="ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解ES6-第６章-Symbol和Symbol属性">
+<meta property="og:url" content="https://waldosia.github.io/2018/03/28/es6_6/index.html">
+<meta property="og:site_name" content="waldosia的博客">
+<meta property="og:description" content="6.Symbol和Symbol属性　　Symbol是JavaScript中一个新的原始类型，用于创建必须通过Symbol才能使用的属性。尽管这些属性不是完全私有的，但是他们比较难以被意外覆盖而改变。表示独一无二的值。可防止属性名冲突。 6.1 创建Symbol　　所有原始类型值，除Symbol以外都有各自的字面量形式。可以通过全局的Symbol函数创建一个Symbol：1234let firstN">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-05T09:36:25.658Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解ES6-第６章-Symbol和Symbol属性">
+<meta name="twitter:description" content="6.Symbol和Symbol属性　　Symbol是JavaScript中一个新的原始类型，用于创建必须通过Symbol才能使用的属性。尽管这些属性不是完全私有的，但是他们比较难以被意外覆盖而改变。表示独一无二的值。可防止属性名冲突。 6.1 创建Symbol　　所有原始类型值，除Symbol以外都有各自的字面量形式。可以通过全局的Symbol函数创建一个Symbol：1234let firstN">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://waldosia.github.io/2018/03/28/es6_6/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="waldosia的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/waldosia" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">waldosia</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Chengdu, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/waldosia" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入理解ES6/">深入理解ES6</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/项目总结/">项目总结</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/BFPRT/" style="font-size: 13px;">BFPRT</a> <a href="/tags/ES6/" style="font-size: 14px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 13px;">JavaScript</a> <a href="/tags/KMP/" style="font-size: 13px;">KMP</a> <a href="/tags/MarkDown/" style="font-size: 13px;">MarkDown</a> <a href="/tags/javascript/" style="font-size: 13.33px;">javascript</a> <a href="/tags/js/" style="font-size: 13.33px;">js</a> <a href="/tags/manacher/" style="font-size: 13px;">manacher</a> <a href="/tags/react/" style="font-size: 13px;">react</a> <a href="/tags/冒泡排序/" style="font-size: 13px;">冒泡排序</a> <a href="/tags/堆排序/" style="font-size: 13px;">堆排序</a> <a href="/tags/归并排序/" style="font-size: 13px;">归并排序</a> <a href="/tags/快速排序/" style="font-size: 13px;">快速排序</a> <a href="/tags/排序/" style="font-size: 13px;">排序</a> <a href="/tags/插入排序/" style="font-size: 13px;">插入排序</a> <a href="/tags/数据结构/" style="font-size: 13px;">数据结构</a> <a href="/tags/算法/" style="font-size: 13.67px;">算法</a> <a href="/tags/选择排序/" style="font-size: 13px;">选择排序</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/项目总结/">项目总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/20/SecondProjectSummary/" class="title">英语资料上传管理系统总结</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-20T11:46:00.000Z" itemprop="datePublished">2018-06-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/25/BFPRT/" class="title">BFPRT算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-25T03:34:00.000Z" itemprop="datePublished">2018-05-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/13/Manacher/" class="title">Manacher算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-13T14:23:00.000Z" itemprop="datePublished">2018-05-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/13/KMP/" class="title">KMP算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-13T13:55:00.000Z" itemprop="datePublished">2018-05-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/03/sortAlgorithm/" class="title">基本排序算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-03T14:33:00.000Z" itemprop="datePublished">2018-05-03</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-es6_6" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      深入理解ES6-第６章-Symbol和Symbol属性
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/03/28/es6_6/" class="article-date">
+	  <time datetime="2018-03-28T09:24:00.000Z" itemprop="datePublished">2018-03-28</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/深入理解ES6/">深入理解ES6</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/ES6/">ES6</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2018/03/28/es6_6/" class="leancloud_visitors"  data-flag-title="深入理解ES6-第６章-Symbol和Symbol属性">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/03/28/es6_6/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2,929(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 11(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h3 id="6-Symbol和Symbol属性"><a href="#6-Symbol和Symbol属性" class="headerlink" title="6.Symbol和Symbol属性"></a>6.Symbol和Symbol属性</h3><p>　　Symbol是JavaScript中一个新的原始类型，用于创建必须通过Symbol才能使用的属性。尽管这些属性不是完全私有的，但是他们比较难以被意外覆盖而改变。表示独一无二的值。可防止属性名冲突。</p>
+<h4 id="6-1-创建Symbol"><a href="#6-1-创建Symbol" class="headerlink" title="6.1 创建Symbol"></a>6.1 创建Symbol</h4><p>　　所有原始类型值，除Symbol以外都有各自的字面量形式。可以通过全局的Symbol函数创建一个Symbol：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> firstName = <span class="built_in">Symbol</span>();</span><br><span class="line"><span class="keyword">let</span> person = &#123;&#125;;</span><br><span class="line">person[firstName] = “Nicholas”;</span><br><span class="line"><span class="built_in">console</span>.log(person[firstName]);   <span class="comment">//”Nicholas”</span></span><br></pre></td></tr></table></figure></p>
+<p>　　在上面这段代码中，创建了一个名为firstName的Symbol，用它将一个新的属性赋值给person对象，每当你想访问这个属性时一定要用到最初定义的Symbol。记得要合理命名Symbol变量，这样可以轻松区分它所指代的内容。<br>注意，创建Symbol不要使用new调用。<br>　　Symbol函数接受一个可选参数，其可以让你添加一段文本描述即将常见的Symbol，这段描述不可用于属性访问，只能方便阅读和调试。描述被存储在内部的[[Description]]属性中，只有当调用Symbol的toString()方法可以读取该属性。<br>　　Symbol使用typeof辨识，返回”symbol”。</p>
+<h4 id="6-2-Symbol的使用方法"><a href="#6-2-Symbol的使用方法" class="headerlink" title="6.2 Symbol的使用方法"></a>6.2 Symbol的使用方法</h4><p>　　Symbol可用于可计算对象字面量属性名、Object.defineProperty()方法和Object.defineProperties()方法的调用过程中。</p>
+<h4 id="6-3-Symbol共享体系"><a href="#6-3-Symbol共享体系" class="headerlink" title="6.3 Symbol共享体系"></a>6.3 Symbol共享体系</h4><p>　　有时我们可能希望在不同的代码中共享同一个Symbol，例如，在你的应用中有种不同的对象类型，但是你希望它们使用同一个Symbol属性来表示一个独特的标识符。一般而言，在很大的代码库中或跨文件追踪Symbol非常困难而且容易出错，处于这些原因，ES6提供了一个可以随时访问的全局Symbol注册表。<br>　　如果想创建一个可共享的Symbol，要使用Symbol.for()方法。传入即将要创建的Symbol的字符串标识符（键-作为Symbol唯一的标识），同时作为Symbol的描述。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> uid = <span class="built_in">Symbol</span>.for(“uid”);</span><br></pre></td></tr></table></figure></p>
+<p>　　该方法首先在全局Symbol注册表中搜索键为”uid”的Symbol是否存在，存在后直接返回已有的Symbol，不存在则创建一个新的Symbol并返回。<br>Symbol.ketFor()方法：在Symbol全局注册表中检索与Symbol有关的键，返回创建时传入的标识符（键）。不存在时返回undefined。</p>
+<h4 id="6-4-Symbol与类型强制转换"><a href="#6-4-Symbol与类型强制转换" class="headerlink" title="6.4 Symbol与类型强制转换"></a>6.4 Symbol与类型强制转换</h4><p>　　console.log()输出Symbol时，会调用Symbol的String()方法，String()会调用Symbol的toString()方法，返回字符串类型的Symbol描述里的内容。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> uid = <span class="built_in">Symbol</span>.for(“uid”);</span><br><span class="line"><span class="built_in">console</span>.log(uid);  <span class="comment">//”Symbol(uid)”</span></span><br></pre></td></tr></table></figure></p>
+<p>　　但是不能将Symbol与一个字符串拼接，也不能进行算术运算，也就是Symbol无法强制转换为数值与字符串。</p>
+<h4 id="6-5-Symbol属性检索"><a href="#6-5-Symbol属性检索" class="headerlink" title="6.5 Symbol属性检索"></a>6.5 Symbol属性检索</h4><p>　　Object.keys()—返回所有可枚举的属性名；<br>　　Object.getOwnPropertyNames()—不考虑属性的可枚举性一律返回；<br>　　上面两个方法都不支持Symbol属性。<br>　　Object.getOwnPropertySymbols()—检索对象中的所有Symbol属性，返回一个包含所有Symbol自有属性的数组。</p>
+<h4 id="6-6-通过well-known-Symbol暴露内部操作"><a href="#6-6-通过well-known-Symbol暴露内部操作" class="headerlink" title="6.6 通过well-known Symbol暴露内部操作"></a>6.6 通过well-known Symbol暴露内部操作</h4><p>　　ES5的一个中心主旨是将JavaScript中的一些“神奇”的部分暴露出来，并详尽定义了这些开发者们在当时模拟不了的功能。ES6延续了这个传统，新标准中主要通过在原型链上定义与　Symbol相关的属性来暴露更多语言内部逻辑。<br>　　ES6开放了以前JavaScript中常见的内部操作，并通过预定义一些well-known Symbol来表示。每一个这类Symbol都是Symbol对象的一个属性。这些well-known Symbol包括：</p>
+<ul>
+<li>Symbol.hasInstance：一个在执行instanceof时调用的内部方法，用于检测对象的继承信息。</li>
+<li>Symbol.isConcatSpreadable：一个布尔值，用于当传递一个集合作为Array.prototype.concat()方法的参数时，是否应该将集合内的元素规整到同一层级。</li>
+<li>Symbol.iterator：一个返回迭代器的方法</li>
+<li>Symbol.match：一个在调用String.prototype.match()方法时调用的方法，用于比较字符串。</li>
+<li>Symbol.replace：一个在调用String.prototype.replace()方法时调用的方法，用于替换字符串的子串。</li>
+<li>Symbol.search：一个在调用String.prototype.search()方法时调用的方法，用于在字符串中定位子串。</li>
+<li>Symbol.species：用于创建派生类的构造函数。</li>
+<li>Symbol.split：一个在调用String.prototype.toString()方法时使用的字符串，用于分割字符串</li>
+<li>Symbol.toPrimitive：一个返回对象原始值的方法。 </li>
+<li>Symbol.toStringTag：一个在调用Object.prototype.toString()方法时使用的字符串，用于创建对象描述。</li>
+<li>Symbol.unscopables：一个定义了一些不可被with语句引用的对象属性名称的对象集合。<br>　　重写一个由well-known Symbol定义的方法，会导致对象内部的默认行为被改变，从而一个普通对象会变成一个奇异对象。但实际上其不会对你的代码产生任何影响，只是在规范中描述对象的方式改变了。<h5 id="Symbol-hasInstance方法"><a href="#Symbol-hasInstance方法" class="headerlink" title="Symbol.hasInstance方法"></a>Symbol.hasInstance方法</h5>　　该方法用于确定对象是否为函数的实例。该方法在Function.prototype中定义，所以所有函数都继承了instanceof属性的默认行为。该方法被定义为不可写，不可配置并且不可枚举。<br>　　Symbol.hasInstance方法只接受一个参数，即要检查的值。如果传入的是函数的实例，则返回true。<br><code>obj instanceof Array;</code>等价于 <code>Array[Symbol.hasInstance](obj);</code><br>　　本质上ES6只是将instanceof操作符重新定义为吃方法的简写语法。使用　Object.defineProperty()方法可改写一个不可写属性，若利用它改写了Symbol.hasInstance方法后，instanceof操作符运算返回的结果也会改变。<br>　　最好不要重写内建函数默认的Symbol.hasInstance属性。最好的做法是：只在必要情况下改写你自己声明的函数的Symbol.hasInstance属性<h5 id="Symbol-isConcatSpreadable方法"><a href="#Symbol-isConcatSpreadable方法" class="headerlink" title="Symbol.isConcatSpreadable方法"></a>Symbol.isConcatSpreadable方法</h5>　　concat()方法传入数组参数时，会自动将其分解为独立元素。现在可通过Symbol.isConcatSpreadable属性修改这个特性，该属性为一个布尔值，如果该属性为true，表示对象有length属性和数字键，故它的数值型属性值应该被独立添加到concat()调用的结果中。<br>　　与其他well-known Symbol不同，这个Symbol属性默认情况下不会出现在标准对象中，它只是一个可选属性，用于增强作用于特定对象类型的concat()方法中的功能，有效简化其默认特性。<br>　　也可以在派生数组子类中将Symbol.isConcatSpreadable设置为false，从未防止元素在调用concat()方法时被分解。<h5 id="Symbol-match、Symbol-replace、Symbol-rearch和Symbol-split属性"><a href="#Symbol-match、Symbol-replace、Symbol-rearch和Symbol-split属性" class="headerlink" title="Symbol.match、Symbol.replace、Symbol.rearch和Symbol.split属性"></a>Symbol.match、Symbol.replace、Symbol.rearch和Symbol.split属性</h5>　　字符串的match(regex),replace(regex,replacement),search(regex)和split(regex)这个四个方法无法使用开发者滴定仪的对象来替代正则表达式进行字符串匹配。<br>　　在ES6中，定义了上述4个方法对应的4个Symbol，将语言内建的RexExp对象的原生特性完全外包出来。<br>　　Symbol.match、Symbol.replace、Symbol.rearch和Symbol.split这4个属性表示match()、replace()、search()和split()方法中的第一个参数应该调用的正则表达式参数的方法，它们被定义在RegExp.prototype中，是字符串方法应该使用的默认实现。<br>　　我们可以类似于正则表达式的方法创建一个与字符串方法一起使用的对象，然后在上述4个方法中传入该对象，该对象的4个属性为：</li>
+<li>Symbol.match：接受一个字符串类型的参数，如果匹配成功则返回匹配元素的数组，否则返回null</li>
+<li>Symbol.replace：接受一个字符串类型的参数和一个替换用的字符串，最终仍然返回一个字符串</li>
+<li>Symbol.rearch：接受一个字符串参数，如果匹配到内容，则返回数字的索引位置，否则返回-1</li>
+<li>Symbol.split：接受一个字符串参数，根据匹配内容将字符串分解，并返回一个包含分解后片段的数组<br>　　如果可以在对象定义这些属性，可用该对象代替正则表达式，即使不使用正则表达式和以正则表达式为参的方法也可以在对象中实现模式匹配。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实际上等价于/^.&#123;10&#125;$/</span></span><br><span class="line"><span class="keyword">let</span> hasLengthOf10 = &#123;</span><br><span class="line">　　[<span class="built_in">Symbol</span>.match]: <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> value.length === <span class="number">10</span> ? [value.substring(<span class="number">0</span>,<span class="number">10</span>)] : <span class="literal">null</span>;</span><br><span class="line">&#125;,</span><br><span class="line">　　[<span class="built_in">Symbol</span>.replace]: <span class="function"><span class="keyword">function</span>(<span class="params">value, replacement</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> value.length === <span class="number">10</span> ? replacement+value.substring(<span class="number">10</span>) : value;</span><br><span class="line">&#125;,</span><br><span class="line">　　[<span class="built_in">Symbol</span>.search]: <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> value.length === <span class="number">10</span> ? <span class="number">0</span> : <span class="number">-1</span>;</span><br><span class="line">&#125;,</span><br><span class="line">　　[<span class="built_in">Symbol</span>.split]: <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> value.length === <span class="number">10</span> ? [“”, “”] : [value];</span><br><span class="line">&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> message1 = “Hello World”,  </span><br><span class="line">  message2 = ”Hello John”;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> match1 = message1.match(hasLengthOf10),  <span class="comment">//null</span></span><br><span class="line">  match2 = message2.match(hasLengthOf10);  <span class="comment">//[“Hello John”]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> replace1 = message1.replace(hasLengthOf10),  <span class="comment">//”Hello World”</span></span><br><span class="line">  replace2 = message2.replace(hasLengthOf10);  <span class="comment">//”Hello John”</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> search1 = message1.search(hasLengthOf10),  <span class="comment">//-1</span></span><br><span class="line">  search2 = message1.search(hasLengthOf10);  <span class="comment">//0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> split1 = message1.split(hasLengthOf10),   <span class="comment">//[“Hello World”]</span></span><br><span class="line">  split1 = message1.split(hasLengthOf10);   <span class="comment">//[“”,””]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="Symbol-toPrimitive"><a href="#Symbol-toPrimitive" class="headerlink" title="Symbol.toPrimitive"></a>Symbol.toPrimitive</h5><p>　　在JavaScript引擎中，当执行特定操作时，经常会尝试将对象转换到相应的原始值，例如，比较一个字符串和一个对象，如果使用==运算符，对象会在比较操作执行前被转换为一个原始值。到底使用哪个原始值以前是由内部操作决定的，但在ES6中，通过Symbol.toPrimitive方法可以更改哪个暴露出来的值。<br>　　Symbol.toPrimitive方法被定义在每一个标准类型的原型上，并且规定了当对象被转换为原始值应执行的操作。每当执行原始值转换时，总会调用Symbol.toPrimitive方法并传入一个值作为参数，这个值在规范中被称作类型提示（hint）。类型提示参数的值只有单中选择：”number”、”string”或”default”，传递这些参数时，Symbol.toPrimitive返回的分别时数字，字符串或者无类型偏好的值。<br>　　转换为原始值的顺序：</p>
+<ol>
+<li>调用valueof()方法，如果结果为原始值，则返回。</li>
+<li>否则调用toString()方法，如果结果为原始值，则返回。</li>
+<li>如果再无可选值，则抛出错误。<br>　　在大多数情况下，标准对象会将默认模式按数字模式处理（除了Date对象，在这种情况下，会将默认模式按字符串模式处理）。如果自定义Symbol.toPrimitive方法，则可以覆盖这些默认的强制转换特性。<br>注意：默认模式只用于==，+以及给Date构造函数传递一个参数时。   <h5 id="Symbol-toStringTag属性"><a href="#Symbol-toStringTag属性" class="headerlink" title="Symbol.toStringTag属性"></a>Symbol.toStringTag属性</h5>　　在一个页面中存在多个全局执行环境时，数据来回传递无法检测数据类型。<h6 id="针对类型识别问题的解决方案"><a href="#针对类型识别问题的解决方案" class="headerlink" title="针对类型识别问题的解决方案"></a>针对类型识别问题的解决方案</h6><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isArray</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line"><span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(value) === “[object <span class="built_in">Array</span>]”;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h6 id="在ES6中定义对象字符串标签"><a href="#在ES6中定义对象字符串标签" class="headerlink" title="在ES6中定义对象字符串标签"></a>在ES6中定义对象字符串标签</h6><p>　　在ES6中重新定义了原生对象过去的状态，通过Symbol.toStringTag这个Symbol改变了调用Object.prototype.toString()是返回的身份标识。这个Symbol所代表的的属性在每一个对象中都存在，其定义了调用对象的Object.prototype.toString.call()方法时返回的值。对于数组，调用那个函数返回的通常是”Array”，它正式存储在对象的Symbol.toStringTag属性中。<br>　　同样，可以为自己定义的对象定义Symbol.toStringTag属性。<br>　　注意：除非另有说明，所有对象都会从Symbol.toStringTag这个属性，且默认的属性值”Object”。<br>　　禁止修改内建对象，和将自定义对象的该属性的值修改为内建对象的值。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://waldosia.github.io/2018/03/28/es6_6/" title="深入理解ES6-第６章-Symbol和Symbol属性" target="_blank" rel="external">https://waldosia.github.io/2018/03/28/es6_6/</a>
+    </li>
+    
+    
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/waldosia" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/waldosia" target="_blank"><span class="text-dark">waldosia</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>尾巴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+      
+    </div>
+
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/04/10/ThousandCharacter/" title="千位分隔符js正则实现"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/03/24/es6_5/" title="深入理解ES6-第5章-解构：使数据访问更便捷"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/waldosia" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+<!-- custom analytics part create by xiamo -->
+<script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'dpm1XCXQgf5H1y13yKkoNE7Q-gzGzoHsz',
+  appKey: 'XXLr9vjJoDbXFBOhofC5RDqB'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

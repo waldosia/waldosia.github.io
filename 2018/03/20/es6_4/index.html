@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  <meta name="baidu-site-verification" content="ib391iFDv9" />
+  
+  
+  <title>深入理解ES6-第4章-扩展对象的功能性 | waldosia的博客</title>
+  <meta name="description" content="4.扩展对象的功能性4.1 对象类别 普通对象：具有JavaScript对象所有的默认内部行为。 特异对象：具有某些与默认行为不符的内部行为。 标准对象：ES6规范中定义的对象，例如Array，Date等。标准对象既可以是普通对象，也可以是特异对象。 内建对象：脚本开始执行时存在于JavaScript执行环境中的对象，所有的标准对象都是内建对象。4.2 对象字面量语法扩展属性初始值的简写　　当一个">
+<meta name="keywords" content="ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解ES6-第4章-扩展对象的功能性">
+<meta property="og:url" content="https://waldosia.github.io/2018/03/20/es6_4/index.html">
+<meta property="og:site_name" content="waldosia的博客">
+<meta property="og:description" content="4.扩展对象的功能性4.1 对象类别 普通对象：具有JavaScript对象所有的默认内部行为。 特异对象：具有某些与默认行为不符的内部行为。 标准对象：ES6规范中定义的对象，例如Array，Date等。标准对象既可以是普通对象，也可以是特异对象。 内建对象：脚本开始执行时存在于JavaScript执行环境中的对象，所有的标准对象都是内建对象。4.2 对象字面量语法扩展属性初始值的简写　　当一个">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-05T09:12:17.282Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解ES6-第4章-扩展对象的功能性">
+<meta name="twitter:description" content="4.扩展对象的功能性4.1 对象类别 普通对象：具有JavaScript对象所有的默认内部行为。 特异对象：具有某些与默认行为不符的内部行为。 标准对象：ES6规范中定义的对象，例如Array，Date等。标准对象既可以是普通对象，也可以是特异对象。 内建对象：脚本开始执行时存在于JavaScript执行环境中的对象，所有的标准对象都是内建对象。4.2 对象字面量语法扩展属性初始值的简写　　当一个">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://waldosia.github.io/2018/03/20/es6_4/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="waldosia的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/waldosia" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">waldosia</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Chengdu, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/waldosia" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/深入理解ES6/">深入理解ES6</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/项目总结/">项目总结</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/BFPRT/" style="font-size: 13px;">BFPRT</a> <a href="/tags/ES6/" style="font-size: 14px;">ES6</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 13px;">JavaScript</a> <a href="/tags/KMP/" style="font-size: 13px;">KMP</a> <a href="/tags/MarkDown/" style="font-size: 13px;">MarkDown</a> <a href="/tags/javascript/" style="font-size: 13.33px;">javascript</a> <a href="/tags/js/" style="font-size: 13.33px;">js</a> <a href="/tags/manacher/" style="font-size: 13px;">manacher</a> <a href="/tags/react/" style="font-size: 13px;">react</a> <a href="/tags/冒泡排序/" style="font-size: 13px;">冒泡排序</a> <a href="/tags/堆排序/" style="font-size: 13px;">堆排序</a> <a href="/tags/归并排序/" style="font-size: 13px;">归并排序</a> <a href="/tags/快速排序/" style="font-size: 13px;">快速排序</a> <a href="/tags/排序/" style="font-size: 13px;">排序</a> <a href="/tags/插入排序/" style="font-size: 13px;">插入排序</a> <a href="/tags/数据结构/" style="font-size: 13px;">数据结构</a> <a href="/tags/算法/" style="font-size: 13.67px;">算法</a> <a href="/tags/选择排序/" style="font-size: 13px;">选择排序</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/项目总结/">项目总结</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/06/20/SecondProjectSummary/" class="title">英语资料上传管理系统总结</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-20T11:46:00.000Z" itemprop="datePublished">2018-06-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/25/BFPRT/" class="title">BFPRT算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-25T03:34:00.000Z" itemprop="datePublished">2018-05-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/13/Manacher/" class="title">Manacher算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-13T14:23:00.000Z" itemprop="datePublished">2018-05-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/13/KMP/" class="title">KMP算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-13T13:55:00.000Z" itemprop="datePublished">2018-05-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/算法/">算法</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/03/sortAlgorithm/" class="title">基本排序算法之js实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-03T14:33:00.000Z" itemprop="datePublished">2018-05-03</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-es6_4" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      深入理解ES6-第4章-扩展对象的功能性
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/03/20/es6_4/" class="article-date">
+	  <time datetime="2018-03-20T05:04:00.000Z" itemprop="datePublished">2018-03-20</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/深入理解ES6/">深入理解ES6</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/ES6/">ES6</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2018/03/20/es6_4/" class="leancloud_visitors"  data-flag-title="深入理解ES6-第4章-扩展对象的功能性">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/03/20/es6_4/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1,354(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h3 id="4-扩展对象的功能性"><a href="#4-扩展对象的功能性" class="headerlink" title="4.扩展对象的功能性"></a>4.扩展对象的功能性</h3><h4 id="4-1-对象类别"><a href="#4-1-对象类别" class="headerlink" title="4.1 对象类别"></a>4.1 对象类别</h4><ul>
+<li>普通对象：具有JavaScript对象所有的默认内部行为。</li>
+<li>特异对象：具有某些与默认行为不符的内部行为。</li>
+<li>标准对象：ES6规范中定义的对象，例如Array，Date等。标准对象既可以是普通对象，也可以是特异对象。</li>
+<li>内建对象：脚本开始执行时存在于JavaScript执行环境中的对象，所有的标准对象都是内建对象。<h4 id="4-2-对象字面量语法扩展"><a href="#4-2-对象字面量语法扩展" class="headerlink" title="4.2 对象字面量语法扩展"></a>4.2 对象字面量语法扩展</h4><h5 id="属性初始值的简写"><a href="#属性初始值的简写" class="headerlink" title="属性初始值的简写"></a>属性初始值的简写</h5>　　当一个对象的属性与本地变量同名时，不必在写冒号与值，简单只写属性名即可。当对象字面量里只有一个属性的名称时，JavaScript引擎会在可访问作用域中查找同名没变量。<h5 id="对象方法的简写语法"><a href="#对象方法的简写语法" class="headerlink" title="对象方法的简写语法"></a>对象方法的简写语法</h5>　　在ES5及以前，如果为对象添加方法，必须通过指定名称并完整定义函数来实现；而在ES6中，消除冒号与function关键字。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	name: ‘aaa’,</span><br><span class="line">	sayName() &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>　　二者唯一的区别是：简写方法可以使用super关键字。</p>
+<h5 id="可计算属性名"><a href="#可计算属性名" class="headerlink" title="可计算属性名"></a>可计算属性名</h5><p>　　在ES5中，如果要通过计算得到属性名，就需要使用方括号代替点记法。有些包括某些字符的字符串字面量作为标识符会出错，其和变量放在方括号中都是被允许的。此外，在对象字面量中，可以直接使用字符串字面量作为属性名称，但是要加上双引号。<br>　　在ES6中可在对象字面量中使用可计算属性名称，其语法与引用对象实例的可计算属性名称相同，也是使用方括号。表示该属性名称时可计算的，它的内容将被求值并被转化为一个字符串。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> suffix = <span class="string">"name"</span>;</span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">　　[<span class="string">'first'</span>+suffix]: <span class="string">'aaa'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(person[<span class="string">"first name"</span>]);   <span class="comment">//'aaa'</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="4-3-新增方法"><a href="#4-3-新增方法" class="headerlink" title="4.3 新增方法"></a>4.3 新增方法</h4><p>　　ECMAScript其中一个设计目标是：不再创建新的全局函数，也不在Object。prototype上创建新的方法。当开发者想向标准添加新方法时，他们会找一个适当的现有对象，让这些方法可用。结果，当没有其他合适对象时，全局Object对象会收到越来越多的对象方法。ES6中，在全局Object对象上引入了一些新方法。</p>
+<h5 id="Object-is-方法"><a href="#Object-is-方法" class="headerlink" title="Object.is()方法"></a>Object.is()方法</h5><p>　　在js中比较两个值时，一般使用==或===，但是+0和-0在js引擎中为两个完全不同的实体，而全等操作符会判定两者相等，NaN===NaN返回的也是false。<br>　　Object.is()方法来弥补全等操作符的不准确运算。该方法接受两个参数，如果这两个参数类型相同且具有相同的值，则返回true。</p>
+<h5 id="Object-assign-方法"><a href="#Object-assign-方法" class="headerlink" title="Object.assign()方法"></a>Object.assign()方法</h5><p>　　该方法接受一个接收对象和任意数量的源对象，并按指定顺序将属性复制（执行的为浅复制）到接收对象中，最终返回接收对象。如果源对象中有同名属性，则排位靠后的源对象会覆盖排位靠前的。<br>　　Object.assign()会将源对象的访问器属性变为数据属性。</p>
+<h4 id="4-4-重复的对象字面量属性"><a href="#4-4-重复的对象字面量属性" class="headerlink" title="4.4 重复的对象字面量属性"></a>4.4 重复的对象字面量属性</h4><p>　　ES5严格模式下会对重复属性报错，而ES6中不再对重复属性报错，但是取值只选取最后一个取值。</p>
+<h4 id="4-5-自有属性枚举顺序"><a href="#4-5-自有属性枚举顺序" class="headerlink" title="4.5 自有属性枚举顺序"></a>4.5 自有属性枚举顺序</h4><p>　　ES6严格规定了对象的自有属性被枚举时的返回顺序，这会影响到Object.getOwnPropertyNames()方法以及Reflect.ownKeys()返回属性的方式，如下：</p>
+<ul>
+<li>所有数字键按升序排序。</li>
+<li>所有字符串键按照它们被加入对象的顺序排序。</li>
+<li>所有symbol键按照它们被加入对象的顺序排序。<h4 id="4-6增强对象原型"><a href="#4-6增强对象原型" class="headerlink" title="4.6增强对象原型"></a>4.6增强对象原型</h4><h5 id="改变对象的原型"><a href="#改变对象的原型" class="headerlink" title="改变对象的原型"></a>改变对象的原型</h5>　　正常情况下，无论是通过构造函数还是Object.create()方法创建对象，其原型是对象被创建时指定的。对象原型在实例化后保持不变。<br>　　所以在ES6中添加Object.setPropertyOf()方法来改变任意指定对象的原型，它接受两个参数：被改变原型的对象及替代第一个参数原型的对象。<h5 id="简化原型的super引用"><a href="#简化原型的super引用" class="headerlink" title="简化原型的super引用"></a>简化原型的super引用</h5>　　super引用相当于指向原型对象的指针，实际上也就是Object.getPropertyOf(this)的值。同样，可以通过super引用调用对象原型上所有其他的方法。当然，必须在使用简写方法的对象中使用super引用。如果在其他方法声明中使用会导致语法错误。<h4 id="4-7-正确的方法定义"><a href="#4-7-正确的方法定义" class="headerlink" title="4.7 正确的方法定义"></a>4.7 正确的方法定义</h4>　　在ES6以前从未正式定义“方法”的概念，方法仅仅是一个具有功能而非数据的对象属性。在ES6中正式将方法定义为一个函数。她会有一个内部的[[HomeObject]]属性来容纳这个方法从属的对象。<br>　　Super的所有引用都通过[[HomeObject]]属性来确定后续的运行过程。第一步是在[[HomeObject]]属性上调用Object.getPrototypeOf()方法来检索原型的引用；然后搜索原型找到同名函数；最后设置this绑定并且调用相应的方法。</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://waldosia.github.io/2018/03/20/es6_4/" title="深入理解ES6-第4章-扩展对象的功能性" target="_blank" rel="external">https://waldosia.github.io/2018/03/20/es6_4/</a>
+    </li>
+    
+    
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/waldosia" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/waldosia" target="_blank"><span class="text-dark">waldosia</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>尾巴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+      
+    </div>
+
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/03/24/es6_5/" title="深入理解ES6-第5章-解构：使数据访问更便捷"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/03/17/es6_3/" title="深入理解ES6-第3章-函数"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/waldosia" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+<!-- custom analytics part create by xiamo -->
+<script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'dpm1XCXQgf5H1y13yKkoNE7Q-gzGzoHsz',
+  appKey: 'XXLr9vjJoDbXFBOhofC5RDqB'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>
